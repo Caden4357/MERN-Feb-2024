@@ -8,7 +8,6 @@
 // 3      24     10       24       1   1
 
 
-// ! Finish this code :) 
 const breakingRecords = (scores) => {
     let min = scores[0]
     let max = scores[0]
@@ -19,5 +18,12 @@ const breakingRecords = (scores) => {
             min = scores[i]
             result[1]++
         }
+        else if(scores[i] > max){
+            max = scores[i]
+            result[0]++
+        }
     }
+    return result
 }
+console.log(breakingRecords([12,24,10,24])); // [1,1]
+console.log(breakingRecords([10, 5, 20, 20, 4, 5, 2, 25, 1])); // [2,4]
