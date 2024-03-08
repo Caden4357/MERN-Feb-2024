@@ -8,8 +8,12 @@ function App() {
 
   return (
     <>
+      <h1>Movie Watchlist</h1>
+      <hr />
+      <h2>Add Movies To Your List</h2>
       <Form movieWatchlist={movieWatchlist} setMovieWatchlist={setMovieWatchlist}/>
-      <Display/>
+      <hr />
+      <Display movieWatchlist={movieWatchlist} setMovieWatchlist={setMovieWatchlist}/>
     </>
   )
 }

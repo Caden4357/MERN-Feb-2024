@@ -11,8 +11,15 @@ const Form = (props) => {
     const submitHandler = (e) => {
         e.preventDefault()
         console.log('Submitted');
+
+        // ! If you dont want to install uuid use the built in crypto package
+        // const anotherId = crypto.randomUUID()
+        // console.log('******************', anotherId);
+
+        
+        const newMovieId = uuidv4()
         const newMovie = {
-            id:uuidv4(),
+            id:newMovieId,
             movieTitle,
             director,
             genre,
@@ -20,21 +27,25 @@ const Form = (props) => {
             hasBeenWatched:false
         }
         setMovieWatchlist([...movieWatchlist, newMovie])
+        setMovieTitle('')
+        setDirector('')
+        setGenre('Action')
+        setReleaseYear(1920)
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className='w-50 mx-auto'>
             <div>
-                <label>Title: </label>
-                <input type="text" onChange={(e) => setMovieTitle(e.target.value)} value={movieTitle}/>
+                <label className='form-label'>Title: </label>
+                <input className='form-control' type="text" onChange={(e) => setMovieTitle(e.target.value)} value={movieTitle}/>
             </div>
             <div>
                 <label>Director: </label>
-                <input type="text" onChange={(e) => setDirector(e.target.value)} value={director}/>
+                <input className='form-control' type="text" onChange={(e) => setDirector(e.target.value)} value={director}/>
             </div>
             <div>
                 <label>Genre: </label>
-                <select onChange={(e) => setGenre(e.target.value)}>
+                <select className='form-select' onChange={(e) => setGenre(e.target.value)}>
                     <option value="Action">Action</option>
                     <option value="Drama">Drama</option>
                     <option value="Comedy">Comedy</option>
@@ -45,10 +56,11 @@ const Form = (props) => {
             </div>
             <div>
                 <label>Release Year: </label>
-                <input type="number" onChange={(e) => setReleaseYear(e.target.value)} value={releaseYear}/>
+                <input className='form-control' type="number" onChange={(e) => setReleaseYear(e.target.value)} value={releaseYear}/>
             </div>
-            <button>Add Movie</button>
+            <button className='btn btn-primary my-4'>Add Movie</button>
         </form>
 )}
 
 export default Form;
+
