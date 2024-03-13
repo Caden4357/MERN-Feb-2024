@@ -1,7 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css'
 
 function App() {
+
+
+  useEffect(() => {
+    axios.get('https://swapi.py4e.com/api/people')
+      .then((response) => {
+        console.log(response.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
+
 
   return (
     <>

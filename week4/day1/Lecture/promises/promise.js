@@ -15,8 +15,13 @@ const fetchDataSync = (url) => {
     }
 }
 
-console.log(fetchDataSync('https://api.example.com/data'));
+console.log(fetchDataSync('https://api.example.com/data')); // stop here wait for it to complete before moving on in the program
 console.log('This will run after the function is completed');
+
+
+
+
+
 
 
 
@@ -34,10 +39,17 @@ const takeOutTheTrash = new Promise((resolve, reject) => {
 })
 
 takeOutTheTrash
-    .then(message => console.log(message))
-    .catch(err => console.log(err))
-    
+    .then((message) => console.log(message))
+    .catch((err) => console.log(err))
+
+
+
+
 console.log('This will run before the promise is resolved or rejected because it is asyncronous');
+
+
+
+
 
 const promise = new Promise((resolve, reject) => {
     let password = 'I love sports'
@@ -102,4 +114,5 @@ fetchData('https://api.example.com/data')
     })
     .catch((err) => console.log(err))
 console.log('This will run before the promise is resolved');
+
 
