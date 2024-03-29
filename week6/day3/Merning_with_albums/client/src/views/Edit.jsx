@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import Nav from './Nav'
-import { useNavigate } from 'react-router-dom'
-const Create = (props) => {
+import Nav from '../components/Nav'
+import { useNavigate, useParams } from 'react-router-dom'
+const Edit = (props) => {
+    const {id} = useParams()
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [artist, setArtist] = useState('')
@@ -11,16 +12,33 @@ const Create = (props) => {
     const [isExplicit, setIsExplicit] = useState(false)
     const [errors, setErrors] = useState({})
 
+
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/albums/${id}`)
+            .then((res) => {
+                console.log(res);
+                setTitle(res.data.title)
+                setArtist(res.data.artist)
+                setYear(res.data.year)
+                setGenre(res.data.genre)
+                setIsExplicit(res.data.isExplicit)
+
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
+
     const submitHandler = (e) => {
         e.preventDefault();
-        const newAlbum = {
+        const updatedAlbum = {
             title,
             artist,
             year,
             genre,
             isExplicit
         }
-        axios.post('http://localhost:8000/api/albums', newAlbum)
+        axios.put(`http://localhost:8000/api/albums/${id}`, updatedAlbum)
             .then((res) => {
                 navigate('/')
             })
@@ -34,6 +52,7 @@ const Create = (props) => {
     }
     return (
         <div>
+            <Nav title={`Update ${title}`} />
             <form className='w-50 mx-auto' onSubmit={submitHandler}>
                 <div>
                     <label className='form-label'>Title:</label>
@@ -97,6 +116,7 @@ const Create = (props) => {
                         className=''
                         type="checkbox"
                         onChange={() => setIsExplicit(!isExplicit)}
+                        checked={isExplicit}
                     />
                     {
                         errors.isExplicit ?
@@ -110,4 +130,4 @@ const Create = (props) => {
     )
 }
 
-export default Create;
+export default Edit;

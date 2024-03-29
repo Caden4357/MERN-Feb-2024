@@ -3,26 +3,30 @@ import axios from 'axios'
 import Nav from './Nav'
 import { useNavigate } from 'react-router-dom'
 const Create = (props) => {
+    const {albums, setAlbums} = props;
     const navigate = useNavigate()
-    const [title, setTitle] = useState('')
-    const [artist, setArtist] = useState('')
-    const [year, setYear] = useState(1900)
-    const [genre, setGenre] = useState('')
-    const [isExplicit, setIsExplicit] = useState(false)
+    const [album, setAlbum] = useState({
+        title: '',
+        artist: '',
+        year: 1900,
+        genre: '',
+        isExplicit: false
+    })
     const [errors, setErrors] = useState({})
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const newAlbum = {
-            title,
-            artist,
-            year,
-            genre,
-            isExplicit
-        }
-        axios.post('http://localhost:8000/api/albums', newAlbum)
+        axios.post('http://localhost:8000/api/albums', album)
             .then((res) => {
-                navigate('/')
+                setAlbums([...albums, res.data])
+                console.log('RESPONSE DATA: ', res.data);
+                setAlbum({
+                    title: '',
+                    artist: '',
+                    year: 1900,
+                    genre: '',
+                    isExplicit: false
+                })
             })
             .catch((err) => {
                 console.log('ERROR: ', err);
@@ -32,6 +36,23 @@ const Create = (props) => {
                 setErrors(err.response.data.errors)
             })
     }
+
+
+    const changeHandler = (e) => {
+        if(e.target.type === 'checkbox'){
+            console.log('CHECKBOX: ', e.target.checked);
+            setAlbum({
+                ...album,
+                isExplicit: !album.isExplicit 
+            })
+        }else{
+            setAlbum({
+                ...album,
+                [e.target.name]: e.target.value
+            })
+        }
+    }
+
     return (
         <div>
             <form className='w-50 mx-auto' onSubmit={submitHandler}>
@@ -40,8 +61,9 @@ const Create = (props) => {
                     <input
                         className='form-control'
                         type="text"
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
+                        onChange={changeHandler}
+                        value={album.title}
+                        name='title'
                     />
                     {
                         errors.title ?
@@ -54,8 +76,10 @@ const Create = (props) => {
                     <input
                         className='form-control'
                         type="text"
-                        onChange={(e) => setArtist(e.target.value)}
-                        value={artist}
+                        onChange={changeHandler}
+                        value={album.artist}
+                        name='artist'
+
                     />
                     {
                         errors.artist ?
@@ -68,8 +92,10 @@ const Create = (props) => {
                     <input
                         className='form-control'
                         type="number"
-                        onChange={(e) => setYear(e.target.value)}
-                        value={year}
+                        onChange={changeHandler}
+                        value={album.year}
+                        name='year'
+
                     />
                     {
                         errors.year ?
@@ -82,8 +108,10 @@ const Create = (props) => {
                     <input
                         className='form-control'
                         type="text"
-                        onChange={(e) => setGenre(e.target.value)}
-                        value={genre}
+                        onChange={changeHandler}
+                        value={album.genre}
+                        name='genre'
+
                     />
                     {
                         errors.genre ?
@@ -96,7 +124,7 @@ const Create = (props) => {
                     <input
                         className=''
                         type="checkbox"
-                        onChange={() => setIsExplicit(!isExplicit)}
+                        onChange={changeHandler}
                     />
                     {
                         errors.isExplicit ?
