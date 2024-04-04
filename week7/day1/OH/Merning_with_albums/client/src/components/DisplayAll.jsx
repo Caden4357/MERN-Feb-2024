@@ -4,8 +4,25 @@ import { Link } from 'react-router-dom';
 
 const DisplayAll = (props) => {
     const {albums, setAlbums} = props;
-    useEffect(() => {
+
+
+    const getAllAlbums = () => {
         axios.get('http://localhost:8000/api/albums')
+        .then((res) => {
+            console.log(res.data);
+            setAlbums(res.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        getAllAlbums()
+    }, [])
+
+    const albumsBefore2000 = () => {
+        axios.get('http://localhost:8000/api/albums_before_2000')
             .then((res) => {
                 console.log(res.data);
                 setAlbums(res.data)
@@ -13,9 +30,26 @@ const DisplayAll = (props) => {
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }
+    const albumsAfter2000 = () => {
+        axios.get('http://localhost:8000/api/albums_after_2000')
+            .then((res) => {
+                console.log(res.data);
+                setAlbums(res.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+
     return (
         <div>
+            <div>
+                <button onClick={albumsBefore2000}>Pre 2000</button>
+                <button onClick={albumsAfter2000}>Post 2000</button>
+                <button onClick={getAllAlbums}>Reset</button>
+            </div>
             <table className='table table-striped'>
                 <thead>
                     <tr>

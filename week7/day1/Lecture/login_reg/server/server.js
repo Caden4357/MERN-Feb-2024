@@ -3,9 +3,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import dbConnect from './config/mongoose.config.js';
 import userRoutes from './routes/user.routes.js';
+import cookieParser from 'cookie-parser' // ! This is to import cookie parser to send cookies to client 
+
 const app = express();
-app.use(express.json(), cors({ origin: 'http://127.0.0.1:5173'}));
-app.use('/api', userRoutes);
+app.use(cookieParser(process.env.SECRET_KEY)) // ! Dont forget to use cookieParser
+app.use(express.json(), cors({ origin: 'http://localhost:5173', credentials:true}));
+app.use('/api', userRoutes); 
 dotenv.config();
 const PORT = process.env.PORT;
 dbConnect();

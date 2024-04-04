@@ -22,6 +22,30 @@ async function getAllAlbums(req, res){
     }
 }
 
+async function getAlbumsReleasedBefore2000(req, res) {
+    try{
+        const albums = await Album.find({year:{$lt: 2000}})
+        console.log(albums);
+        return res.status(200).json(albums);
+    }
+    catch(err){
+        return res.status(500).json(err);
+    }
+}
+
+async function getAlbumsReleasedAfter2000(req, res) {
+    try{
+        const albums = await Album.find({year:{$gte: 2000}})
+        console.log(albums);
+        return res.status(200).json(albums);
+    }
+    catch(err){
+        return res.status(500).json(err);
+    }
+}
+
+
+
 async function getOneAlbumById(req, res){
     try{
         const id = req.params.id
@@ -54,4 +78,4 @@ async function updateAlbumById(req, res){
     }
 }
 
-export { createAlbum, getAllAlbums, getOneAlbumById, deleteById, updateAlbumById };
+export { createAlbum, getAllAlbums, getOneAlbumById, deleteById, updateAlbumById, getAlbumsReleasedBefore2000, getAlbumsReleasedAfter2000 };

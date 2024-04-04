@@ -37,6 +37,7 @@ const AlbumDetails = (props) => {
                 <h2>Release Year: {album.year}</h2>
                 <h2>Is Explicit: {album.isExplicit? 'Yes': 'No'}</h2>
                 <button onClick={deleteHandler}>Buy {album.title}</button>
+                
             </div>
         </div>
 )}
