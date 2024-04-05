@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { userContext } from '../context/userContext';
 const Login = (props) => {
+    const {user, setUser, storeIdInLocalStorage} = useContext(userContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,6 +14,8 @@ const Login = (props) => {
         axios.post('http://localhost:8000/api/login', {email, password}, {withCredentials:true})
             .then((res) => {
                 console.log(res);
+                setUser(res.data)
+                storeIdInLocalStorage(res.data._id)
                 navigate('/home')
             })
             .catch((err) => {
