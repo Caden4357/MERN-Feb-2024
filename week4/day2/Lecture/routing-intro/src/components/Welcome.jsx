@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { Link, useParams } from 'react-router-dom';
 const Welcome = (props) => {
-    const {name} = useParams()
+    console.log(useParams());
+    const {fName, lName} = useParams()
     return (
         <div>
-            <h1>Hello {name}</h1>
+            <h1>Hello {fName} {lName}</h1>
         </div>
 )}
 

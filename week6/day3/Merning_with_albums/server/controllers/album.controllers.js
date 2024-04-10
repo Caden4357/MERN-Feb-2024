@@ -11,6 +11,7 @@ async function createAlbum(req, res){
         return res.status(500).json(err);
     }
 }
+
 async function getAllAlbums(req, res){
     try{
         const allAlbums = await Album.find()
